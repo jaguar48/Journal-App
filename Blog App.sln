@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog App", "Blog App\Blog App.csproj", "{80A61EE6-93EC-4A69-8A12-77C2C4CF859A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLOG.DAL", "BLOG.DAL\BLOG.DAL.csproj", "{6302B345-AE89-48DD-8B4B-97A2625AFE88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLOG.BLL", "BLOG.BLL\BLOG.BLL.csproj", "{E9F9F142-269C-463B-A3A1-0CC7FF46AC88}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80A61EE6-93EC-4A69-8A12-77C2C4CF859A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80A61EE6-93EC-4A69-8A12-77C2C4CF859A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80A61EE6-93EC-4A69-8A12-77C2C4CF859A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80A61EE6-93EC-4A69-8A12-77C2C4CF859A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6302B345-AE89-48DD-8B4B-97A2625AFE88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6302B345-AE89-48DD-8B4B-97A2625AFE88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6302B345-AE89-48DD-8B4B-97A2625AFE88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6302B345-AE89-48DD-8B4B-97A2625AFE88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9F9F142-269C-463B-A3A1-0CC7FF46AC88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9F9F142-269C-463B-A3A1-0CC7FF46AC88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9F9F142-269C-463B-A3A1-0CC7FF46AC88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9F9F142-269C-463B-A3A1-0CC7FF46AC88}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DE292B2C-DA52-4AB7-A5FD-37420CA31781}
+	EndGlobalSection
+EndGlobal
