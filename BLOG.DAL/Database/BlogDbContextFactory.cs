@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿/*using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using System;
 
@@ -42,4 +42,4 @@ namespace Blog.DAL.Database
             return new BlogDbContext(optionsBuilder.Options);
         }
     }
-}
+}*/

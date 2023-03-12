@@ -10,6 +10,14 @@ namespace BLOG.BLL.Models
         {
             CreateMap<BlogPost, BlogPostViewModel>();
             CreateMap<BlogPostViewModel, BlogPost>();
+
+            CreateMap<AuthorViewModel, Author>();
+            CreateMap<Author, AuthorViewModel>();
+
+            CreateMap<Category, CategoryViewModel>();
+            CreateMap<CategoryViewModel, Category>();
+            
+
         }
     }
 }

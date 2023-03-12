@@ -1,23 +1,67 @@
 ﻿@using BLOG.BLL.Models;
-<h1>Blog Posts</h1>
 
-@if (Model.Count == 0)
+<style>
+    .blog-post {
+        margin-bottom: 30px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .blog-post h2 {
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+
+    .blog-post p {
+        margin-bottom: 10px;
+    }
+
+    .blog-post span {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .blog-post a {
+        margin-right: 10px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        color: #fff;
+    }
+</style>
+
+@if (Model.Count == 0  )
 {
     <p>There are no blog posts to display.</p>
 }
 else
 {
-    <ul>
-        @foreach (var post in Model)
+    <div class="row">
+        @foreach (var post in Model )
         {
-            <li>
-                <h2>@post.Title</h2>
-                <p>@post.AuthorName</p>
-                <p>@post.PublishedDate.ToShortDateString()</p>
-                <p>@post.Body</p>
-            </li>
+            <div class="col-md-4">
+                <div class="blog-post">
+                    <h2><a href="@Url.Action("Details", "Blog", new { id = post.Id })">@post.Title</a></h2>
+                    <p>@post.DisplayedDate</p>
+                    <span>by: @post.Author.Name</span>
+                    <hr>
+                    <p>@post.Content</p>
+                    <a href="@Url.Action("Edit", "Blog", new { id = post.Id })" class="btn btn-primary">Edit</a>
+                    <a href="@Url.Action("Delete", "Blog", new { id = post.Id })" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
         }
-    </ul>
+    </div>
 }
 
 <a href="/Blog/Create" class="btn btn-primary">Create New Post</a>

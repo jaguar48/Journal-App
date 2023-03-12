@@ -1,0 +1,12 @@
+﻿@model BLOG.BLL.Models.BlogPostViewModel;
+
+<h1>@Model.Title</h1>
+
+<p>Published on: @Model.DisplayedDate </p>
+
+@if (Model.Author != null)
+{
+    <p>Author: @Model.Author.Name </p>
+}
+
+<p>@Model.Content</p>

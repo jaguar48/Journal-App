@@ -9,25 +9,22 @@
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Author.Id">Author</label>
-        <select asp-for="Author.Id" asp-items="@(new SelectList(ViewBag.Authors, "Id", "Name"))" class="form-control">
+        <label asp-for="Author ">Author</label>
+        <select asp-for="Author.Id " asp-items="@(new SelectList(ViewBag.Authors, "Id", "Name"))" class="form-control">
             <option value="">-- Select an author --</option>
         </select>
         <span asp-validation-for="Author.Id" class="text-danger"></span>
     </div>
 
+
     <div class="form-group">
         <label asp-for="Categories">Categories</label>
+
         <select asp-for="Categories" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))" class="form-control" multiple>
         </select>
         <span asp-validation-for="Categories" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="Tags">Tags</label>
-        <select asp-for="Tags" asp-items="@(new SelectList(ViewBag.Tags, "Id", "Name"))" class="form-control" multiple>
-        </select>
-        <span asp-validation-for="Tags" class="text-danger"></span>
-    </div>
+   
     <div class="form-group">
         <label asp-for="Content">Body</label>
         <textarea asp-for="Content" class="form-control"></textarea>

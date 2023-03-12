@@ -1,0 +1,58 @@
+﻿@model BLOG.BLL.Models.BlogPostViewModel
+@{
+    ViewData["Title"] = "Edit Blog Post";
+}
+
+<h1>Edit Blog Post</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Content"></label>
+        <textarea asp-for="Content" class="form-control" rows="10"></textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
+    </div>
+
+   @* <div class="form-group">
+        <label asp-for="Categories"></label>
+        <select asp-for="Categories. " asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))" class=" form-control">
+            <option value="">-- Select Category --</option>
+        </select>
+        <span asp-validation-for="Categories" class="text-danger"></span>
+    </div>*@
+
+    <div class="form-group">
+        <label asp-for="Author "></label>
+
+        <select asp-for="Author.Id " asp-items="@(new SelectList(ViewBag.Authors, "Id", "Name"))" class="form-control">
+            <option value="">-- Select Author --</option>
+        </select>
+        <span asp-validation-for="Author.Id " class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+    

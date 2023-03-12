@@ -9,14 +9,18 @@ namespace BLOG.BLL.Interfaces
 {
     public interface IBlogService
     {
-        List<BlogPostViewModel> GetAllBlogPosts();
+        IEnumerable<BlogPostViewModel> GetAllBlogPosts();
         BlogPostViewModel GetBlogPostById(int id);
         void AddBlogPost(BlogPostViewModel blogPostViewModel);
         void UpdateBlogPost(BlogPostViewModel blogPostViewModel);
         void DeleteBlogPost(int id);
-        List<CategoryViewModel> GetAllCategories();
-        List<TagViewModel> GetAllTags();
-        List<AuthorViewModel> GetAllAuthors();
+        IEnumerable<CategoryViewModel> GetAllCategories();
+       /* IEnumerable<TagViewModel> GetAllTags();*/
+        IEnumerable<AuthorViewModel> GetAllAuthors();
+        public void AddAuthor(AuthorViewModel authorViewModel);
+        void AddCategory(CategoryViewModel categoryViewModel);
+       /* void AddTag(TagViewModel categoryViewModel);*/
+
     }
 
 }

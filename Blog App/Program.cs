@@ -3,14 +3,20 @@ using BLOG.BLL.Implementations;
 using BLOG.BLL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using BLOG.BLL.Models;
+using BLOG.DAL.Repository;
+using System.Reflection;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<BlogDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("BlogDbConnection")));
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork<BlogDbContext>>(); 
 builder.Services.AddScoped<IBlogService, BlogService>();
-builder.Services.AddScoped<IBlogRepository, BlogRepository>();
+builder.Services.AddAutoMapper(Assembly.Load("BLOG.BLL"));
+
 builder.Services.AddAutoMapper (typeof(BlogProfile));
 
 

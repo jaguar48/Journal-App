@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BLOG.DAL.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    [Migration("20230308235949_first")]
-    partial class first
+    [Migration("20230311141727_ola")]
+    partial class ola
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,11 +34,9 @@ namespace BLOG.DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -58,7 +56,6 @@ namespace BLOG.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LastUpdatedDate")
@@ -68,7 +65,6 @@ namespace BLOG.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -95,23 +91,6 @@ namespace BLOG.DAL.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("BLOG.DAL.Entity.Tag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tags");
-                });
-
             modelBuilder.Entity("BlogPostCategory", b =>
                 {
                     b.Property<int>("BlogPostsId")
@@ -127,25 +106,10 @@ namespace BLOG.DAL.Migrations
                     b.ToTable("BlogPostCategory");
                 });
 
-            modelBuilder.Entity("BlogPostTag", b =>
-                {
-                    b.Property<int>("BlogPostsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TagsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BlogPostsId", "TagsId");
-
-                    b.HasIndex("TagsId");
-
-                    b.ToTable("BlogPostTag");
-                });
-
             modelBuilder.Entity("BLOG.DAL.Entity.BlogPost", b =>
                 {
                     b.HasOne("BLOG.DAL.Entity.Author", "Author")
-                        .WithMany("BlogPosts")
+                        .WithMany("Tasks")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -168,24 +132,9 @@ namespace BLOG.DAL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BlogPostTag", b =>
-                {
-                    b.HasOne("BLOG.DAL.Entity.BlogPost", null)
-                        .WithMany()
-                        .HasForeignKey("BlogPostsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BLOG.DAL.Entity.Tag", null)
-                        .WithMany()
-                        .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("BLOG.DAL.Entity.Author", b =>
                 {
-                    b.Navigation("BlogPosts");
+                    b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618
         }
