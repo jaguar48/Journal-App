@@ -32,16 +32,18 @@ namespace BLOG.BLL.Implementations
             var blogPostViewModels = _mapper.Map<IEnumerable<BlogPostViewModel>>(blogPosts);
 
             var authorIds = blogPostViewModels.Select(p => p.AuthorId).Distinct().ToList();
+
             var authors = _authorRepo.GetAll().Where(a => authorIds.Contains(a.Id))
                                               .Select(a => _mapper.Map<AuthorViewModel>(a))
                                               .ToList();
 
             var categoryIds = blogPostViewModels.SelectMany(p => p.Categories.Select(c => c.Id)).Distinct().ToList();
-            var categories = _catRepo.GetAll().Where(c => categoryIds.Contains(c.Id))
-                                                   .Select(c => _mapper.Map<CategoryViewModel>(c))
-                                                   .ToList();
 
-            var blogPostViewModelsWithAuthorsAndCategories = blogPostViewModels.Join(authors,
+            var categories = _catRepo.GetAll().Where(c => categoryIds.Contains(c.Id))
+                                                    .Select(c => _mapper.Map<CategoryViewModel>(c))
+                                                    .ToList();
+
+            var blogPostViewData = blogPostViewModels.Join(authors,
                 post => post.AuthorId,
                 author => author.Id,
                 (post, author) =>
@@ -50,14 +52,17 @@ namespace BLOG.BLL.Implementations
                     return post;
                 }).ToList();
 
-            foreach (var post in blogPostViewModelsWithAuthorsAndCategories)
+            blogPostViewData.ForEach(post =>
             {
-                var postCategories = categories.Where(c => post.Categories.Any(pc => pc.Id == c.Id)).ToList();
-                post.Categories = postCategories;
-            }
+                post.Categories = post.Categories.Any()
+                                  ? _mapper.Map<IEnumerable<CategoryViewModel>>(categories.Where(c => post.Categories.Select(x => x.Id).Contains(c.Id)))
+                                  : new List<CategoryViewModel> { new CategoryViewModel { Name = "Uncategorized" } };
+            });
 
-            return blogPostViewModelsWithAuthorsAndCategories;
+            return blogPostViewData;
         }
+
+
 
 
 
@@ -70,8 +75,20 @@ namespace BLOG.BLL.Implementations
             var blogPostViewModel = _mapper.Map<BlogPostViewModel>(blogPost);
             blogPostViewModel.Author = _mapper.Map<AuthorViewModel>(author);
 
+            if (blogPost.Categories != null && blogPost.Categories.Any())
+            {
+                var categories = blogPost.Categories.Select(c => new CategoryViewModel { Id = c.Id, Name = c.Name }).ToList();
+                blogPostViewModel.Categories = categories;
+            }
+            else
+            {
+
+                blogPostViewModel.Categories = new List<CategoryViewModel> { new CategoryViewModel { Id = 0, Name = "Uncategorized" } };
+            }
+
             return blogPostViewModel;
         }
+
 
 
 
@@ -87,21 +104,27 @@ namespace BLOG.BLL.Implementations
                 {
                     throw new Exception($"Author with Id {blogPostViewModel.AuthorId} not found.");
                 }
-
                 blogPostEntity.Author = author;
+
+                foreach (var category in blogPostEntity.Categories)
+                {
+                    var existingCategory = _catRepo.GetById(category.Id);
+                    if (existingCategory == null)
+                    {
+                        throw new Exception($"Category with Id {category.Id} not found.");
+                    }
+                }
 
                 _blogRepo.Add(blogPostEntity);
                 _unitOfWork.SaveChanges();
             }
             catch (Exception ex)
             {
-              
                 Console.WriteLine(ex.Message);
-
-              
                 throw;
             }
         }
+
 
 
         public void UpdateBlogPost(BlogPostViewModel blogPostViewModel)
@@ -147,6 +170,7 @@ namespace BLOG.BLL.Implementations
             }
             catch (Exception ex)
             {
+
                 throw new Exception();
             }
             

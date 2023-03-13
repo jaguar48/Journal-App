@@ -17,6 +17,8 @@ namespace BLOG.BLL.Models
         
         public AuthorViewModel? Author { get; set; }
         public IEnumerable<CategoryViewModel>? Categories { get; set; }
+
+       
     }
 
 }

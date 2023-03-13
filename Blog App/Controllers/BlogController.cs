@@ -59,7 +59,9 @@ namespace BLOG.WEB.Controllers
 
         public IActionResult Details(int id)
         {
+           
             var blogPostViewModel = _blogService.GetBlogPostById(id);
+            ViewData["Categories"] = blogPostViewModel.Categories;
 
             if (blogPostViewModel == null)
             {
@@ -68,6 +70,7 @@ namespace BLOG.WEB.Controllers
 
             return View(blogPostViewModel);
         }
+       
 
         public IActionResult Edit(int id)
         {
