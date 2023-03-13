@@ -10,6 +10,7 @@ namespace BLOG.BLL.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<BlogPostViewModel>? BlogPostsId { get; set; }
+        public IEnumerable<BlogPostViewModel> BlogPosts { get; set; }
     }
+
 }

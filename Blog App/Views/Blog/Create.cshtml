@@ -20,7 +20,8 @@
     <div class="form-group">
         <label asp-for="Categories">Categories</label>
 
-        <select asp-for="Categories" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))" class="form-control" multiple>
+        <select asp-for="Categories " asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))" class="form-control" multiple>
+           
         </select>
         <span asp-validation-for="Categories" class="text-danger"></span>
     </div>

@@ -1,12 +1,17 @@
-﻿@model BLOG.BLL.Models.BlogPostViewModel;
+﻿@*@model BLOG.BLL.Models.BlogPostViewModel
 
 <h1>@Model.Title</h1>
-
-<p>Published on: @Model.DisplayedDate </p>
+<p>Published on: @Model.PostedOn </p>
 
 @if (Model.Author != null)
 {
     <p>Author: @Model.Author.Name </p>
 }
 
+@if (Model.Categories != null)
+{
+    <p>Category: @Model.Categories.Name </p>
+}
+
 <p>@Model.Content</p>
+*@

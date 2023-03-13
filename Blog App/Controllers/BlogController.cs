@@ -38,7 +38,7 @@ namespace BLOG.WEB.Controllers
                 try
                 {
 
-                    
+
 
                     _blogService.AddBlogPost(blogPostViewModel);
                     return RedirectToAction(nameof(Index));

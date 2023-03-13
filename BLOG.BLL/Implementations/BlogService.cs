@@ -31,14 +31,34 @@ namespace BLOG.BLL.Implementations
             var blogPosts = _blogRepo.GetAll();
             var blogPostViewModels = _mapper.Map<IEnumerable<BlogPostViewModel>>(blogPosts);
 
-            foreach (var post in blogPostViewModels)
+            var authorIds = blogPostViewModels.Select(p => p.AuthorId).Distinct().ToList();
+            var authors = _authorRepo.GetAll().Where(a => authorIds.Contains(a.Id))
+                                              .Select(a => _mapper.Map<AuthorViewModel>(a))
+                                              .ToList();
+
+            var categoryIds = blogPostViewModels.SelectMany(p => p.Categories.Select(c => c.Id)).Distinct().ToList();
+            var categories = _catRepo.GetAll().Where(c => categoryIds.Contains(c.Id))
+                                                   .Select(c => _mapper.Map<CategoryViewModel>(c))
+                                                   .ToList();
+
+            var blogPostViewModelsWithAuthorsAndCategories = blogPostViewModels.Join(authors,
+                post => post.AuthorId,
+                author => author.Id,
+                (post, author) =>
+                {
+                    post.Author = author;
+                    return post;
+                }).ToList();
+
+            foreach (var post in blogPostViewModelsWithAuthorsAndCategories)
             {
-                var author = _authorRepo.GetById(post.AuthorId);
-                post.Author = _mapper.Map<AuthorViewModel>(author);
+                var postCategories = categories.Where(c => post.Categories.Any(pc => pc.Id == c.Id)).ToList();
+                post.Categories = postCategories;
             }
 
-            return blogPostViewModels;
+            return blogPostViewModelsWithAuthorsAndCategories;
         }
+
 
 
 
@@ -54,22 +74,35 @@ namespace BLOG.BLL.Implementations
         }
 
 
-      
+
 
         public void AddBlogPost(BlogPostViewModel blogPostViewModel)
         {
-            var blogPostEntity = _mapper.Map<BlogPost>(blogPostViewModel);
-
-            var author = _authorRepo.GetById(blogPostEntity.AuthorId );
-            if (author == null)
+            try
             {
-                throw new Exception($"Author with Id {blogPostViewModel.AuthorId} not found.");
-            }
-            blogPostEntity.AuthorId = author.Id;
+                var blogPostEntity = _mapper.Map<BlogPost>(blogPostViewModel);
 
-            _blogRepo.Add(blogPostEntity);
-            _unitOfWork.SaveChanges();
+                var author = _authorRepo.GetById(blogPostEntity.Author.Id);
+                if (author == null)
+                {
+                    throw new Exception($"Author with Id {blogPostViewModel.AuthorId} not found.");
+                }
+
+                blogPostEntity.Author = author;
+
+                _blogRepo.Add(blogPostEntity);
+                _unitOfWork.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+              
+                Console.WriteLine(ex.Message);
+
+              
+                throw;
+            }
         }
+
 
         public void UpdateBlogPost(BlogPostViewModel blogPostViewModel)
         {
@@ -98,12 +131,28 @@ namespace BLOG.BLL.Implementations
 
         public IEnumerable<CategoryViewModel> GetAllCategories()
         {
+            var categories = _catRepo.GetAll();
+            try
+            {
+                var categoryViewModels = _mapper.Map<IEnumerable<CategoryViewModel>>(categories);
 
-            var categories = _catRepo.GetAll;
+                foreach (var categoryViewModel in categoryViewModels)
+                {
+                    var blogPostViewModels = _mapper.Map<IEnumerable<BlogPostViewModel>>(categoryViewModel.BlogPosts);
 
-            var categoryViewModels = _mapper.Map<IEnumerable<CategoryViewModel>>(categories);
-            return categoryViewModels;
+                    categoryViewModel.BlogPosts = blogPostViewModels;
+                }
+
+                return categoryViewModels;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
+            
         }
+
+
 
 
         public void AddAuthor(AuthorViewModel authorViewModel)
